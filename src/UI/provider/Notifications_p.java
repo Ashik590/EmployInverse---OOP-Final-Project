@@ -89,7 +89,7 @@ public class Notifications_p {
             btn.addActionListener(e -> {
                 switch (text) {
                     case "All Job Posts" -> {
-                        new All_services_p(FileFunctions.getAllServices(), me_sp);
+                        new All_services_p(me_sp);
                         frame.dispose();
                     }
                     case "Clients" -> {
@@ -201,11 +201,22 @@ public class Notifications_p {
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setBackground(Color.WHITE);
 
-        JLabel msgTitle = new JLabel("New Job Assignment");
+        // Whether the service is on-going or client made a cancellation request
+
+        String msgTitleText, msgBodyText;
+        if(job.getStatus().equals("On-going")){
+            msgTitleText = "New Job Assignment";
+            msgBodyText = "You have been assigned a job by " + job.getClient_userName();
+        }else{
+            msgTitleText = "Cancellation Request";
+            msgBodyText = "Client made cancellation request for the current job";
+        }
+
+        JLabel msgTitle = new JLabel(msgTitleText);
         msgTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         msgTitle.setForeground(new Color(30, 41, 59));
 
-        JLabel msgBody = new JLabel("You have been assigned a job by " + job.getClient_userName());
+        JLabel msgBody = new JLabel(msgBodyText);
         msgBody.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         msgBody.setForeground(new Color(100, 116, 139));
 

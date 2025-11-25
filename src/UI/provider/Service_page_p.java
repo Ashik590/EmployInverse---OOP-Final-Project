@@ -111,7 +111,7 @@ public class Service_page_p {
             btn.addActionListener(e -> {
                 switch (text) {
                     case "All Job Posts" -> {
-                        new All_services_p(FileFunctions.getAllServices(), me_sp);
+                        new All_services_p(me_sp);
                         frame.dispose();
                     }
                     case "Clients" -> {
@@ -300,7 +300,7 @@ public class Service_page_p {
                 //
                 me_sp.denyCancellationRequest();
                 JOptionPane.showMessageDialog(frame, "You are continuing this job!", "Cancellation Request Denied", JOptionPane.INFORMATION_MESSAGE);
-                new Service_page_p(me_sp, service);
+                new Service_page_p(me_sp, FileFunctions.searchService(service.getID()));
                 frame.dispose();
             });
 
@@ -309,7 +309,7 @@ public class Service_page_p {
                 //
                 me_sp.cancelJob();
                 JOptionPane.showMessageDialog(frame, "You agreed to cancel this job!", "Cancellation Request Accepted", JOptionPane.INFORMATION_MESSAGE);
-                new Service_page_p(me_sp, service);
+                new Service_page_p(me_sp, FileFunctions.searchService(service.getID()));
                 frame.dispose();
             });
 

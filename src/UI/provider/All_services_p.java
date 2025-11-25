@@ -1,6 +1,9 @@
 package UI.provider;
 
 import UI.Login;
+import UI.client.Client_account_c;
+import UI.client.Provider_account_c;
+import logic.Client;
 import logic.FileFunctions;
 import logic.Service;
 import logic.ServiceProvider;
@@ -12,10 +15,31 @@ import java.util.ArrayList;
 public class All_services_p {
     private static ArrayList<Service> all_services;
     private static ServiceProvider me_sp;
+    private static String msg;
+    private static ServiceProvider related_provider;
+    private static Client owner_client;
 
-    public All_services_p(ArrayList<Service> all_servs, ServiceProvider me) {
+    public All_services_p(ArrayList<Service> all_servs, ServiceProvider me, String message, ServiceProvider related_sp) {
         all_services = all_servs;
         me_sp = me;
+        related_provider = related_sp;
+        owner_client = null;
+        msg = message;
+
+        if(me.getUser_name().equals(related_sp.getUser_name())) {
+            String newMsg = msg;
+            msg = "(Me) ";
+            msg += newMsg;
+        }
+
+        main(null);
+    }
+    public All_services_p(ArrayList<Service> all_servs, ServiceProvider me, String message, Client owner_client_) {
+        all_services = all_servs;
+        me_sp = me;
+        owner_client = owner_client_;
+        related_provider = null;
+        msg = message;
 
         main(null);
     }
@@ -23,6 +47,9 @@ public class All_services_p {
     public All_services_p(ServiceProvider me) {
         all_services = FileFunctions.getAllServices();
         me_sp = me;
+        msg = "";
+        related_provider = null;
+        owner_client = null;
 
         main(null);
     }
@@ -156,7 +183,7 @@ public class All_services_p {
         titleLeft.setLayout(new BoxLayout(titleLeft, BoxLayout.Y_AXIS));
         titleLeft.setBackground(new Color(245, 247, 250));
 
-        JLabel titleLabel = new JLabel("All Job Posts");
+        JLabel titleLabel = new JLabel((msg.isEmpty() ? "All" :msg)+ " Job Posts");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titleLabel.setForeground(new Color(30, 41, 59));
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -170,6 +197,37 @@ public class All_services_p {
         titleLeft.add(titleLabel);
         titleLeft.add(Box.createRigidArea(new Dimension(0, 5)));
         titleLeft.add(subtitleLabel);
+
+        // Extra button to go back (if needed)
+        if(!msg.isEmpty()) {
+            JButton goBackBtn = new JButton("Go Back");
+            goBackBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            goBackBtn.setForeground(Color.WHITE);
+            goBackBtn.setBackground(new Color(59, 130, 246));
+            goBackBtn.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+            goBackBtn.setFocusPainted(false);
+            goBackBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            goBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    goBackBtn.setBackground(new Color(37, 99, 235));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    goBackBtn.setBackground(new Color(59, 130, 246));
+                }
+            });
+
+            goBackBtn.addActionListener(e -> {
+                if(owner_client != null) {
+                    new Client_account_p(me_sp, owner_client);
+                }else if(related_provider != null){
+                    new Provider_account_p(me_sp, related_provider);
+                }
+                frame.dispose();
+            });
+
+            titlePanel.add(goBackBtn, BorderLayout.EAST);
+        }
 
         titlePanel.add(titleLeft, BorderLayout.WEST);
 
@@ -214,7 +272,7 @@ public class All_services_p {
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Subtitle
-        JLabel subtitleLabel = new JLabel("When clients post jobs, they will appear here.");
+        JLabel subtitleLabel = new JLabel("Don't waste time to be here");
         subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         subtitleLabel.setForeground(new Color(148, 163, 184));
         subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

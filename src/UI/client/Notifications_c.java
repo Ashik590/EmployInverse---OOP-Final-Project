@@ -94,7 +94,7 @@ public class Notifications_c {
                     case "Clients" -> new Clients_page_c(me_client);
                     case "Providers" -> new Providers_page_c(me_client);
                     case "My Account" -> new Client_account_c(me_client);
-                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client);
+                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client, "My", me_client);
                     case "Notifications" -> new Notifications_c(me_client);
                     case "Logout" -> new Login();
                 }
@@ -173,7 +173,7 @@ public class Notifications_c {
         iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Message
-        JLabel messageLabel = new JLabel("No notifications");
+        JLabel messageLabel = new JLabel("No Notifications");
         messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         messageLabel.setForeground(new Color(100, 116, 139));
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

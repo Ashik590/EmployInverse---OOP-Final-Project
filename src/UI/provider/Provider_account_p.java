@@ -111,7 +111,7 @@ public class Provider_account_p {
             btn.addActionListener(e -> {
                 switch (text) {
                     case "All Job Posts" -> {
-                        new All_services_p(FileFunctions.getAllServices(), me_sp);
+                        new All_services_p(me_sp);
                         frame.dispose();
                     }
                     case "Clients" -> {
@@ -350,7 +350,7 @@ public class Provider_account_p {
 
         // See Applied Jobs button action
         seeAppliedJobBtn.addActionListener(e -> {
-            new All_services_p(appliedJobs, me_sp);
+            new All_services_p(appliedJobs, me_sp, provider.getUser_name()+"'s Applied", provider);
             parentFrame.dispose();
         });
 
@@ -380,7 +380,7 @@ public class Provider_account_p {
 
         // See All Jobs button action
         seeAllCompletedBtn.addActionListener(e -> {
-            new All_services_p(provider.getCompletedJobs(), me_sp);
+            new All_services_p(provider.getCompletedJobs(), me_sp, provider.getUser_name()+"'s Completed", provider);
             parentFrame.dispose();
         });
 

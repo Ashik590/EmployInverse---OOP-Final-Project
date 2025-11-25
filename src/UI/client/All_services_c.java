@@ -4,6 +4,7 @@ import UI.Login;
 import logic.Client;
 import logic.FileFunctions;
 import logic.Service;
+import logic.ServiceProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,19 +13,36 @@ import java.util.ArrayList;
 public class All_services_c {
     private static ArrayList<Service> all_services;
     private static Client me_client;
-    private static boolean isAll;
+    private static String msg;
+    private static Client owner_client;
+    private static ServiceProvider related_provider;
 
-    public All_services_c(ArrayList<Service> all_servs, Client me) {
+    public All_services_c(ArrayList<Service> all_servs, Client me, String message, ServiceProvider related_sp) {
         all_services = all_servs;
         me_client = me;
-        isAll = false;
+        msg = message;
+        related_provider = related_sp;
+        owner_client = null;
         main(null);
     }
+
+    public All_services_c(ArrayList<Service> all_servs, Client me, String message, Client owner_client_) {
+        all_services = all_servs;
+        me_client = me;
+        msg = message;
+        owner_client = owner_client_;
+        if(owner_client.getUser_name().equals(me.getUser_name())){
+            msg = "My";
+        }
+        related_provider = null;
+        main(null);
+    }
+
 
     public All_services_c(Client me) {
         all_services = FileFunctions.getAllServices();
         me_client = me;
-        isAll = true;
+        msg = "";
         main(null);
     }
 
@@ -107,7 +125,7 @@ public class All_services_c {
                     case "Clients" -> new Clients_page_c(me_client);
                     case "Providers" -> new Providers_page_c(me_client);
                     case "My Account" -> new Client_account_c(me_client);
-                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client);
+                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client, "My", me_client);
                     case "Notifications" -> new Notifications_c(me_client);
                     case "Logout" -> new Login();
                 }
@@ -133,7 +151,7 @@ public class All_services_c {
         titleLeft.setLayout(new BoxLayout(titleLeft, BoxLayout.Y_AXIS));
         titleLeft.setBackground(new Color(245, 247, 250));
 
-        JLabel titleLabel = new JLabel(isAll ? "All Job Posts" : "My Job Posts");
+        JLabel titleLabel = new JLabel((msg.isEmpty() ? "All" : msg) + " Job Posts");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titleLabel.setForeground(new Color(30, 41, 59));
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -147,6 +165,38 @@ public class All_services_c {
         titleLeft.add(titleLabel);
         titleLeft.add(Box.createRigidArea(new Dimension(0, 5)));
         titleLeft.add(subtitleLabel);
+
+        // Extra button to go back (if needed)
+        if(!msg.isEmpty()) {
+            JButton goBackBtn = new JButton("Go Back");
+            goBackBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            goBackBtn.setForeground(Color.WHITE);
+            goBackBtn.setBackground(new Color(59, 130, 246));
+            goBackBtn.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+            goBackBtn.setFocusPainted(false);
+            goBackBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            goBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    goBackBtn.setBackground(new Color(37, 99, 235));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    goBackBtn.setBackground(new Color(59, 130, 246));
+                }
+            });
+
+            goBackBtn.addActionListener(e -> {
+                if(owner_client != null) {
+                 new Client_account_c(me_client, owner_client);
+                }else if(related_provider != null){
+                    new Provider_account_c(me_client, related_provider);
+                }
+                frame.dispose();
+            });
+
+            titlePanel.add(goBackBtn, BorderLayout.EAST);
+        }
+
 
         titlePanel.add(titleLeft, BorderLayout.WEST);
 
@@ -185,13 +235,13 @@ public class All_services_c {
         iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Message
-        JLabel messageLabel = new JLabel("No job found yet");
+        JLabel messageLabel = new JLabel("No Job found yet");
         messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         messageLabel.setForeground(new Color(100, 116, 139));
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Subtitle
-        JLabel subtitleLabel = new JLabel("When clients post jobs, they will appear here.");
+        JLabel subtitleLabel = new JLabel("Don't waste time to be here.");
         subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         subtitleLabel.setForeground(new Color(148, 163, 184));
         subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

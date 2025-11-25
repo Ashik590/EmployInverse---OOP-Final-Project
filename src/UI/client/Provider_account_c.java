@@ -103,7 +103,7 @@ public class Provider_account_c {
                     case "Clients" -> new Clients_page_c(me_client);
                     case "Providers" -> new Providers_page_c(me_client);
                     case "My Account" -> new Client_account_c(me_client);
-                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client);
+                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client, "My", me_client);
                     case "Notifications" -> new Notifications_c(me_client);
                     case "Logout" -> new Login();
                 }
@@ -315,7 +315,7 @@ public class Provider_account_c {
 
         // LOGIC PRESERVED: See Applied Jobs button action
         seeAppliedJobBtn.addActionListener(e -> {
-            new All_services_c(appliedJobs, me_client);
+            new All_services_c(appliedJobs, me_client, provider.getUser_name()+"'s Applied", provider);
             parentFrame.dispose();
         });
 
@@ -345,7 +345,7 @@ public class Provider_account_c {
 
         // LOGIC PRESERVED: See All Jobs button action
         seeAllCompletedBtn.addActionListener(e -> {
-            new All_services_c(provider.getCompletedJobs(), me_client);
+            new All_services_c(provider.getCompletedJobs(), me_client, provider.getUser_name()+"'s Completed", provider);
             parentFrame.dispose();
         });
 

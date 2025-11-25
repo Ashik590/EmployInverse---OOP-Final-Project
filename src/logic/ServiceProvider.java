@@ -69,9 +69,9 @@ public class ServiceProvider extends Person {
 
     public void denyCancellationRequest(){
         Service currentJob = getCurrentJob();
-        if(!this.currentJobID.equals("None") && currentJob.getStatus().equals("On-request-cancellation"))
+        if(!this.currentJobID.equals("None") && currentJob.getStatus().equals("On-request-cancellation")){
             currentJob.setStatus("On-going");
-
+        }
         else{
             String errMsg;
             if(this.currentJobID.equals("None"))

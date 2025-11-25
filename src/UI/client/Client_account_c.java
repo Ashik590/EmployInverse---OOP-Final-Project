@@ -28,9 +28,9 @@ public class Client_account_c {
     }
 
     public static void main(String[] args) {
-        me_client = FileFunctions.searchClient("aziz");
-        isMe = true;
-        client = me_client;
+//        me_client = FileFunctions.searchClient("aziz");
+//        isMe = true;
+//        client = me_client;
 
         JFrame frame = new JFrame("EmployInverse - Client Account");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -108,7 +108,7 @@ public class Client_account_c {
                     case "Clients" -> new Clients_page_c(me_client);
                     case "Providers" -> new Providers_page_c(me_client);
                     case "My Account" -> new Client_account_c(me_client);
-                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client);
+                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client, "My", me_client);
                     case "Notifications" -> new Notifications_c(me_client);
                     case "Logout" -> new Login();
                 }
@@ -288,7 +288,7 @@ public class Client_account_c {
         });
 
         seeAllBtn.addActionListener(e -> {
-            new All_services_c(client.getOfferedJobs(), me_client);
+            new All_services_c(client.getOfferedJobs(), me_client, client.getUser_name()+"'s", client);
             parentFrame.dispose();
         });
 

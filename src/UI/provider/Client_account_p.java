@@ -287,7 +287,7 @@ public class Client_account_p{
         });
 
         seeAllBtn.addActionListener(e -> {
-            new All_services_p(client.getOfferedJobs(), me_sp);
+            new All_services_p(client.getOfferedJobs(), me_sp, client.getUser_name()+"'s", client);
             parentFrame.dispose();
         });
 

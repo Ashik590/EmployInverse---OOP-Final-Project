@@ -102,7 +102,7 @@ public class Clients_page_c {
                     case "Clients" -> new Clients_page_c(me_client);
                     case "Providers" -> new Providers_page_c(me_client);
                     case "My Account" -> new Client_account_c(me_client);
-                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client);
+                    case "My Posts" -> new All_services_c(me_client.getOfferedJobs(), me_client, "My",  me_client);
                     case "Notifications" -> new Notifications_c(me_client);
                     case "Logout" -> new Login();
                 }
