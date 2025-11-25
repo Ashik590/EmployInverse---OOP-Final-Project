@@ -1,4 +1,6 @@
-package pack;
+package logic;
+
+import java.util.ArrayList;
 
 public abstract class Person {
     private final String name;
@@ -7,6 +9,7 @@ public abstract class Person {
     private final String user_name;
     private final String password;
     private double balance;
+    private ArrayList<String> path;
 
     public Person(String name, String phone, String email, String user_name, String password,  double balance) {
         this.name = name;
@@ -15,6 +18,7 @@ public abstract class Person {
         this.user_name = user_name;
         this.password = password;
         this.balance = balance;
+        this.path = new ArrayList<>();
     }
 
     public String getName() {

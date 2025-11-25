@@ -1,4 +1,4 @@
-package pack;
+package logic;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -102,6 +102,7 @@ public class Client extends Person{
                 sp.addBalance(service.getPrice());
                 sp.setCurrentJob(null);
                 sp.addCompletedJob(service.getID());
+                service.removeApplicant(sp.getUser_name());
 
                 FileFunctions.updateProvider(sp);
             }
