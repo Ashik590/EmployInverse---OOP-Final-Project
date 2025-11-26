@@ -49,7 +49,7 @@ Run the application
    java Main
    ```
 
-That's it — the application will launch the login/signup UI.
+That's it — the application will launch the signup UI.
 
 ---
 
