@@ -1,4 +1,4 @@
-# EMPLOYMENT INVERSE — OOP Final Project
+# EmployINVERSE — OOP Final Project
 
 A simple service-based marketplace built in Java that connects Clients (who post jobs) with Service Providers (who apply and deliver work). This academic project demonstrates solid object-oriented design, a controlled payment flow, a notification system, and a lightweight file-based database. The GUI is implemented using Java Swing.
 
